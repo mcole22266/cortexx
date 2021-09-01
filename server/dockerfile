@@ -11,7 +11,7 @@ WORKDIR /app
 
 # Dependency Installation
 COPY package*.json* ./
-RUN npm install 
+RUN npm install --silent
 
 # Copy Source Files
 COPY . .

@@ -7,14 +7,12 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
-const dotenv = require('dotenv');
 
+const { config } = require('./config')
 const db_iou = require('./api_iou')
 
-dotenv.config()
-
 const app = express()
-const port = process.env.NODE_PORT
+const port = config.NODE_PORT
 
 // Setup Body Parser
 app.use(bodyParser.json())
@@ -38,5 +36,5 @@ app.delete('/iou/debts/:debtId', db_iou.deleteDebt)
 
 // Start Server
 app.listen(port, () => {
-    console.log(`App running on post ${port}`)
+    console.log(`App running on port ${port}`)
 })
