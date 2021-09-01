@@ -1,0 +1,20 @@
+# .gitignore
+# 2021-08-31
+# Michael Cole (mcole042891.prof.dev@gmail.com)
+#
+# Git Ignore for the project
+# ---------------------------------------------
+
+# General
+secrets.env
+
+# NodeJS
+.nyc_output
+coverage/
+node_modules/
+npm_debug.log
+package-lock.json
+test/*.log
+
+# Postgres
+postgres-data/

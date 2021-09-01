@@ -1,0 +1,15 @@
+# dockerfile
+# 2021-08-31
+# Michael Cole (mcole042891.prof.dev@gmail.com)
+#
+# Dockerfile for the Postgres Database
+# --------------------------------------------
+
+FROM postgres:13.4
+
+# Create Scripts Folder for DB Setup scripts
+RUN mkdir /scripts
+COPY ./scripts/* /scripts/
+
+# Add Scripts to entrypoint folder so they are executed upon DB Creation
+RUN mv /scripts/*.sql /docker-entrypoint-initdb.d/
