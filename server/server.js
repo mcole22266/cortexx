@@ -7,11 +7,14 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
+const dotenv = require('dotenv');
 
 const db_iou = require('./api_iou')
 
+dotenv.config()
+
 const app = express()
-const port = 3000
+const port = process.env.NODE_PORT
 
 // Setup Body Parser
 app.use(bodyParser.json())
