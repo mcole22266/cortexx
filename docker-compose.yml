@@ -19,7 +19,8 @@ services:
       dockerfile: dockerfile
       context: ./db
     env_file:
-      - ./.env - ./secrets.env
+      - ./.env
+      - ./secrets.env
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
     networks:
