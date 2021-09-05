@@ -1,0 +1,19 @@
+# dockerfile
+# 2021-08-31
+# Michael Cole (mcole042891.prof.dev@gmail.com)
+#
+# Dockerfile for the React Frontend
+# ---------------------------------
+
+FROM node:16.8
+
+WORKDIR /app
+
+# Dependency Installation
+COPY package*.json* ./
+RUN npm install --silent
+
+# Copy Source Files
+COPY . .
+
+CMD [ "npm", "start" ]

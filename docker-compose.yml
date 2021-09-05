@@ -43,3 +43,19 @@ services:
       - cortexx
     ports:
       - 3000:3000
+
+  cortexx:
+    container_name: cortexx
+    build:
+      dockerfile: dockerfile
+      context: ./cortexx
+    depends_on:
+      - server
+    restart: always
+    env_file:
+      - ./.env
+      - ./secrets.env
+    networks:
+      - cortexx
+    ports:
+      - 80:3000
