@@ -16,4 +16,6 @@ RUN npm install --silent
 # Copy Source Files
 COPY . .
 
+EXPOSE 5000
+
 CMD [ "node", "server.js" ]
