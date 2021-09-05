@@ -55,6 +55,9 @@ services:
     env_file:
       - ./.env
       - ./secrets.env
+    volumes:
+      - ./cortexx/src:/app/src
+      - ./cortexx/public:/app/public
     networks:
       - cortexx
     ports:
