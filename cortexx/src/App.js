@@ -1,9 +1,17 @@
+import { render } from 'react-dom';
+
 import './App.css';
+import { Home } from './components/home/index';
 
 function App() {
+
+  const home = Home()
+
   return (
-    <div className='App'>
-      <h1>Hello World!</h1>
+    <div>
+
+      { home }
+
     </div>
   );
 }

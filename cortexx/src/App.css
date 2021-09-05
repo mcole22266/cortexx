@@ -1,3 +1,15 @@
 .App {
   text-align: center;
 }
+
+.embedded-video {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.embedded-video iframe {
+  height: 315px;
+  width: 560px;
+  max-width: 75vw !important;
+}
