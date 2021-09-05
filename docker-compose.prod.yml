@@ -1,0 +1,59 @@
+# docker-compose.prod.yml
+# 2021-09-05
+# Michael Cole (mcole042891.prof.dev@gmail.com)
+#
+# docker-compose file for container orchestration within the project.
+# !! THIS IS FOR PRODUCTION !!
+# Run this with `docker-compose up --build`
+# -------------------------------------------------------------------
+
+version: "3.8"
+
+networks:
+  cortexx:
+
+services:
+
+  db:
+    container_name: db
+    build:
+      dockerfile: dockerfile
+      context: ./db
+    env_file:
+      - ./.env
+      - ./secrets.env
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - cortexx
+
+  server:
+    container_name: server
+    build:
+      dockerfile: dockerfile
+      context: ./server
+    depends_on:
+      - db
+    restart: always
+    env_file:
+      - ./.env
+      - ./secrets.env
+    networks:
+      - cortexx
+
+  cortexx:
+    container_name: cortexx
+    build:
+      dockerfile: dockerfile
+      context: ./cortexx
+    depends_on:
+      - server
+    restart: always
+    env_file:
+      - ./.env
+      - ./secrets.env
+    networks:
+      - cortexx
+    ports:
+      - 80:3000
+      - 8080:3000
