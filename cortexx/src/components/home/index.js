@@ -1,24 +1,19 @@
-import { About } from "./about";
-import { Crickets } from "./crickets";
-import { Jumbotron } from "./jumbotron";
-import { MiniBankJumbotron } from "./minibankjumbotron";
-
-const about = About();
-const crickets = Crickets();
-const jumbotron = Jumbotron();
-const minibankjumbotron = MiniBankJumbotron()
+import About from "./about";
+import Crickets from "./crickets";
+import Jumbotron from "./jumbotron";
+import MiniBankJumbotron from "./minibankjumbotron";
 
 export function Home() {
   return (
     <div>
 
-      { jumbotron }
+      <Jumbotron />
 
-      { about }
+      <About />
 
-      { crickets }
+      <Crickets />
 
-      { minibankjumbotron }
+      <MiniBankJumbotron />
 
     </div>
   );
