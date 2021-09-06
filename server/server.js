@@ -10,6 +10,7 @@ const bodyParser = require('body-parser')
 
 const { config } = require('./config')
 const db_iou = require('./api_iou')
+const db_minibank = require('./api_minibank')
 
 const app = express()
 const cors = require('cors')
@@ -35,6 +36,23 @@ app.get('/iou/debts/:debtId', db_iou.getDebtById)
 app.post('/iou/debts', db_iou.createDebt)
 app.put('/iou/debts/:debtId', db_iou.updateDebt)
 app.delete('/iou/debts/:debtId', db_iou.deleteDebt)
+
+// Minibank Routes
+    // Accounts
+app.get('/minibank/accounts', db_minibank.getAccounts)
+app.get('/minibank/accounts/:accountId', db_minibank.getAccountById)
+app.post('/minibank/accounts', db_minibank.createAccount)
+app.put('/minibank/accounts/:accountId', db_minibank.updateAccount)
+app.delete('/minibank/accounts/:accountId', db_minibank.deleteAccount)
+    // Payments
+app.get('/minibank/payments', db_minibank.getPayments)
+app.get('/minibank/payments/:paymentId', db_minibank.getPaymentById)
+app.post('/minibank/payments', db_minibank.createPayment)
+app.put('/minibank/payments/:paymentId', db_minibank.updatePayment)
+app.delete('/minibank/payments/:paymentId', db_minibank.deletePayment)
+    // Balances
+app.get('/minibank/balances', db_minibank.getBalances)
+app.get('/minibank/balances/:accountId', db_minibank.getBalanceById)
 
 // Start Server
 app.listen(port, () => {

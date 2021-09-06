@@ -2,8 +2,8 @@
 // 2021-08-31
 // Michael Cole (mcole042891.prof.dev@gmail.com)
 // 
-// Set of queries for the IOU Schema
-// ---------------------------------------------
+// NodeJS Backend Queries for the IOU API
+// --------------------------------------
 
 const Pool = require('pg').Pool
 
@@ -55,13 +55,13 @@ const getDebtById = (req, res) => {
 const createDebt = (req, res) => {
     console.log('Creating Debt in DB')
     const name = req.body.name
-    const amt = req.body.amt
+    const amount = req.body.amount
 
     let query = `
     INSERT INTO iou.debt (
-        name, amt
+        name, amount
     ) VALUES (
-        '${name}', ${amt}
+        '${name}', ${amount}
     ) RETURNING id
     `
 
@@ -77,13 +77,13 @@ const updateDebt = (req, res) => {
     console.log('Updating Debt in DB')
     const debtId = req.params.debtId
     const name = req.body.name
-    const amt = req.body.amt
+    const amount = req.body.amount
 
     let query = `
     UPDATE iou.debt
     SET 
         name='${name}',
-        amt=${amt}
+        amount=${amount}
     WHERE id='${debtId}'
     `
 
@@ -91,8 +91,8 @@ const updateDebt = (req, res) => {
         if (error) {
             throw error
         }
+        res.status(200).send(`Debt modified with ID: ${debtId}`)
     })
-    res.status(200).send(`Debt modified with ID: ${debtId}`)
 }
 
 const deleteDebt = (req, res) => {

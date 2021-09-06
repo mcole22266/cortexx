@@ -14,14 +14,14 @@ CREATE SCHEMA IF NOT EXISTS iou;
 CREATE TABLE iou.debt (
     id SERIAL PRIMARY KEY,
     name VARCHAR,
-    amt NUMERIC,
+    amount NUMERIC,
     start_date DATE DEFAULT CURRENT_DATE,
     end_date DATE DEFAULT NULL
 );
 
 -- Insert
 INSERT INTO iou.debt (
-    name, amt
+    name, amount
 ) VALUES (
     'Test User', 123.45
 );
