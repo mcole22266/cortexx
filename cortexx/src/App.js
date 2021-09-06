@@ -1,18 +1,33 @@
-import { render } from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
 
 import './App.css';
 import { Home } from './components/home/index';
+import MiniBank from './components/minibank/index';
 
 function App() {
 
-  const home = Home()
-
   return (
-    <div>
+    <Router>
 
-      { home }
+        <Switch>
 
-    </div>
+          <Route path="/minibank">
+            <MiniBank />
+          </Route>
+
+
+          <Route path="/">
+            <Home />
+          </Route>
+
+
+        </Switch>
+
+    </Router>
   );
 }
 

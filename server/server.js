@@ -12,7 +12,8 @@ const { config } = require('./config')
 const db_iou = require('./api_iou')
 
 const app = express()
-const port = config.NODE_PORT
+const cors = require('cors')
+const port = config.REACT_APP_BACKEND_PORT
 
 // Setup Body Parser
 app.use(bodyParser.json())
@@ -21,6 +22,7 @@ app.use(
         extended: true,
     })
 )
+app.use(cors())
 
 // Test Connection
 app.get('/', (req, res) => {
