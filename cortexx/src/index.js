@@ -1,3 +1,10 @@
+// index.js
+// 2021-08-31
+// Michael Cole (mcole042891.prof.dev@gmail.com)
+//
+// Entrypoint for the Front-end React App
+// --------------------------------------------
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

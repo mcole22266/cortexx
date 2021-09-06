@@ -1,3 +1,10 @@
+// jumbotron.js
+// 2021-09-05
+// Michael Cole (mcole042891.prod.dev@gmail.com)
+//
+// Jumbotron Component Landing Page
+// --------------------------------
+
 import { Component } from 'react';
 
 export default class Jumbotron extends Component {

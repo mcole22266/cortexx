@@ -1,3 +1,10 @@
+// crickets.js
+// 2021-09-05
+// Michael Cole (mcole042891.prod.dev@gmail.com)
+//
+// Crickets Component Landing Page
+// ----------------------------
+
 import { Component } from "react";
 
 export default class Crickets extends Component {

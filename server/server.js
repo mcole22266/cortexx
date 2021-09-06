@@ -47,6 +47,7 @@ app.delete('/minibank/accounts/:accountId', db_minibank.deleteAccount)
     // Payments
 app.get('/minibank/payments', db_minibank.getPayments)
 app.get('/minibank/payments/:paymentId', db_minibank.getPaymentById)
+app.get('/minibank/payments/account/:accountId', db_minibank.getPaymentByAccountId)
 app.post('/minibank/payments', db_minibank.createPayment)
 app.put('/minibank/payments/:paymentId', db_minibank.updatePayment)
 app.delete('/minibank/payments/:paymentId', db_minibank.deletePayment)

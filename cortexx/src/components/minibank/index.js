@@ -1,16 +1,78 @@
+// index.js
+// 2021-09-06
+// Michael Cole (mcole042891.prod.dev@gmail.com)
+//
+// Landing Page for Minibank Service of Cortexx
+// --------------------------------------------
+
 import { Component } from 'react';
-import ShowDebts from './showDebts';
+import axios from 'axios';
+import Navbar from './navbar';
+import ShowBalance from './showBalance';
+import ShowPayments from './showPayments';
+
+// TODO: Remove after testing
+const loggedin_accountid = 3
+
+const { config } = require('../../config');
+
+const backend_host = config.REACT_APP_BACKEND_HOST
+const backend_port = config.REACT_APP_BACKEND_PORT
+const backend_endpoint = `/minibank/accounts/${loggedin_accountid}`
+
+const api = axios.create({
+    baseURL: `${backend_host}:${backend_port}`
+})
 
 export default class Minibank extends Component {
+    constructor (props) {
+        super (props)
+
+        this.state = {
+            error: null,
+            isLoaded: false,
+            account: null
+        }
+    }
+
+    componentDidMount () {
+        // Get Account Information
+        api.get(backend_endpoint)
+            .then(response => {
+                this.setState({
+                    account: response.data,
+                    isLoaded: true
+                })
+            })
+    }
 
     render() {
-        return (
-            <div className='container'>
-                <h1>Mini Bank</h1>
+        if (!this.state.isLoaded) {
+            return <div>Loading...</div>
+        } else {
+            const account = this.state.account[0]
+            console.log(account)
+            return (
+                <div>
+                    <Navbar />
 
-                <ShowDebts />
+                    <div className='container'>
+                        <h1>Welcome { account.name }!</h1>
 
-            </div>
-        )
+                        <h3>Your Info</h3>
+                        <ul>
+                            <li>Email: { account.email }</li>
+                            <li>Phone: { account.phone }</li>
+                        </ul>
+
+                        <ShowBalance />
+
+                        <ShowPayments />
+
+                    </div>
+
+                </div>
+            )
+        }
     }
 }

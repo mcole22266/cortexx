@@ -1,3 +1,10 @@
+// minibankjumbotron.js
+// 2021-09-05
+// Michael Cole (mcole042891.prod.dev@gmail.com)
+//
+// Jumbotron Component Announcing Minibank on Landing Page
+// -------------------------------------------------------
+
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 

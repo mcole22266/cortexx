@@ -1,3 +1,10 @@
+// about.js
+// 2021-09-05
+// Michael Cole (mcole042891.prod.dev@gmail.com)
+//
+// About Component Landing Page
+// ----------------------------
+
 import { Component } from 'react';
 
 export default class About extends Component {

@@ -13,3 +13,7 @@
   width: 560px;
   max-width: 75vw !important;
 }
+
+.showBalance {
+  max-width: 18rem;
+}

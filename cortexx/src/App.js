@@ -1,3 +1,10 @@
+// App.js
+// 2021-08-31
+// Michael Cole (mcole042891.prof.dev@gmail.com)
+//
+// App layout logic
+// ----------------
+
 import {
   BrowserRouter as Router,
   Switch,

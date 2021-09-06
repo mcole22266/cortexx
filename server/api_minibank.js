@@ -153,6 +153,24 @@ const getPaymentById = (req, res) => {
     })
 }
 
+const getPaymentByAccountId = (req, res) => {
+    console.log('Getting Payment from DB')
+    accountId = req.params.accountId
+
+    let query = `
+    SELECT *
+    FROM minibank.payment
+    WHERE account_id='${accountId}'
+    `
+
+    dbPool.query(query, (error, results) => {
+        if (error) {
+            throw error
+        }
+        res.status(200).json(results.rows)
+    })
+}
+
 const createPayment = (req, res) => {
     console.log('Creating Payment in DB')
     const accountId = req.body.accountId
@@ -262,6 +280,7 @@ module.exports = {
 
     getPayments,
     getPaymentById,
+    getPaymentByAccountId,
     createPayment,
     updatePayment,
     deletePayment,
