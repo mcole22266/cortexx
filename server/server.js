@@ -11,6 +11,7 @@ const bodyParser = require('body-parser')
 const { config } = require('./config')
 const db_iou = require('./api_iou')
 const db_minibank = require('./api_minibank')
+const db_auth = require('./api_auth')
 
 const app = express()
 const cors = require('cors')
@@ -55,7 +56,14 @@ app.delete('/minibank/payments/:paymentId', db_minibank.deletePayment)
 app.get('/minibank/balances', db_minibank.getBalances)
 app.get('/minibank/balances/:accountId', db_minibank.getBalanceById)
 
+// User Routes
+app.get('/auth/users', db_auth.getUsers)
+app.get('/auth/users/:userId', db_auth.getUserById)
+app.post('/auth/users', db_auth.createUser)
+app.put('/auth/users/:userId', db_auth.updateUser)
+app.delete('/auth/users/:userId', db_auth.deleteUser)
+
 // Start Server
 app.listen(port, () => {
-    console.log(`App running on port ${port}`)
+    console.log(`Server running on port ${port}`)
 })
