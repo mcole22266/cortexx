@@ -1,13 +1,14 @@
-// api_auth.js
+// auth.js
 // 2021-09-12
 // Michael Cole (mcole042891.prof.dev@gmail.com)
 // 
 // NodeJS Backend Queries for the Auth API
 // --------------------------------------
 
+const bcrypt = require("bcrypt")
 const Pool = require('pg').Pool
 
-const { config } = require('./config')
+const { config } = require('../config')
 
 // Create DB Pool
 const dbPool = new Pool({
@@ -54,6 +55,7 @@ const getUserById = (req, res) => {
 
 const createUser = (req, res) => {
     console.log('Creating User in DB')
+
     const username = req.body.username
     const name = req.body.name
     const email = req.body.email
@@ -126,11 +128,63 @@ const deleteUser = (req, res) => {
     })
 }
 
+const registerUser = async (req, res) => {
+    const username = req.body.username
+    const email = req.body.email
+    const password = req.body.password
+    const role = 'user'
+
+    // Check if username or email has been taken by another user already
+    const usernameExists = await checkExists('username', username)
+    const emailExists = await checkExists('email', email)
+
+    if (usernameExists || emailExists) {
+        res.json({message: "Username or email has already been taken"})
+    } else {
+
+        req.body.username = username.toLowerCase()
+        req.body.email = email.toLowerCase()
+        req.body.password = await bcrypt.hash(password, 10)
+        req.body.role = role
+
+        createUser(req, res)
+    }
+}
+
+function checkExists(key, value) {
+    // Check if a value exists in the DB
+    let query = `
+    SELECT *
+    FROM auth.user
+    WHERE ${key}='${value}'
+    `
+
+    return new Promise((resolve, reject) => {
+
+        dbPool.query(query)
+            .then(results => {
+                if (results.rows.length > 0) {
+                    console.log('checkExists would return true')
+                    resolve(true)
+                } else {
+                    console.log('checkExists would return false')
+                    resolve(false)
+                }
+            })
+            .catch(error => {
+                console.log('checkExists would throw error')
+                reject(error)
+            })
+    })
+}
+
 // Export Functions
 module.exports = {
     getUsers,
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+
+    registerUser
 }

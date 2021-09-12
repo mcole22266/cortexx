@@ -9,9 +9,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const { config } = require('./config')
-const db_iou = require('./api_iou')
-const db_minibank = require('./api_minibank')
-const db_auth = require('./api_auth')
+const db_iou = require('./api/iou')
+const db_minibank = require('./api/minibank')
+const db_auth = require('./api/auth')
 
 const app = express()
 const cors = require('cors')
@@ -62,6 +62,8 @@ app.get('/auth/users/:userId', db_auth.getUserById)
 app.post('/auth/users', db_auth.createUser)
 app.put('/auth/users/:userId', db_auth.updateUser)
 app.delete('/auth/users/:userId', db_auth.deleteUser)
+    // Register
+app.post('/auth/register', db_auth.registerUser)
 
 // Start Server
 app.listen(port, () => {

@@ -1,4 +1,4 @@
-// api_iou.js
+// iou.js
 // 2021-08-31
 // Michael Cole (mcole042891.prof.dev@gmail.com)
 // 
@@ -7,7 +7,7 @@
 
 const Pool = require('pg').Pool
 
-const { config } = require('./config')
+const { config } = require('../config')
 
 // Create DB Pool
 const dbPool = new Pool({
