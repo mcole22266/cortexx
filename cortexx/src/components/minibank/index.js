@@ -10,9 +10,10 @@ import axios from 'axios';
 import Navbar from './navbar';
 import ShowBalance from './showBalance';
 import ShowPayments from './showPayments';
+import Account from '../../models/account';
 
 // TODO: Remove after testing
-const loggedin_accountid = 3
+const loggedin_accountid = 1
 
 const { config } = require('../../config');
 
@@ -40,7 +41,7 @@ export default class Minibank extends Component {
         api.get(backend_endpoint)
             .then(response => {
                 this.setState({
-                    account: response.data,
+                    account: new Account(response.data[0]),
                     isLoaded: true
                 })
             })
@@ -50,7 +51,7 @@ export default class Minibank extends Component {
         if (!this.state.isLoaded) {
             return <div>Loading...</div>
         } else {
-            const account = this.state.account[0]
+            const account = this.state.account
             console.log(account)
             return (
                 <div>
