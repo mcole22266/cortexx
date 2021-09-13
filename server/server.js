@@ -64,6 +64,8 @@ app.put('/auth/users/:userId', db_auth.updateUser)
 app.delete('/auth/users/:userId', db_auth.deleteUser)
     // Register
 app.post('/auth/register', db_auth.registerUser)
+    // Login
+app.post('/auth/login', db_auth.loginUser)
 
 // Start Server
 app.listen(port, () => {

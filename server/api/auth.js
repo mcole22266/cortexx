@@ -6,6 +6,7 @@
 // --------------------------------------
 
 const bcrypt = require("bcrypt")
+const jwt = require('jsonwebtoken')
 const Pool = require('pg').Pool
 
 const { config } = require('../config')
@@ -129,6 +130,7 @@ const deleteUser = (req, res) => {
 }
 
 const registerUser = async (req, res) => {
+    console.log('Registering New User')
     const username = req.body.username
     const email = req.body.email
     const password = req.body.password
@@ -151,6 +153,59 @@ const registerUser = async (req, res) => {
     }
 }
 
+const loginUser = (req, res) => {
+    console.log('Attempting to log in user')
+    const username_input = req.body.username
+    const password_input = req.body.password
+
+    const user = getUserByUsername(username_input)
+        .then(user => {
+            // Check for valid Username
+            if (!user.username) {
+                return res.json({
+                    message: 'Unrecognized Username'
+                })
+            }
+            // If username is correct, continue
+            bcrypt.compare(password_input, user.password)
+                .then(isCorrect => {
+                    if (isCorrect) {
+                        const payload = {
+                            id: user.id,
+                            username: user.username,
+                            name: user.name,
+                            email: user.email,
+                            phone: user.phone,
+                            start_date: user.start_date,
+                            end_date: user.end_date
+                        }
+                        jwt.sign(
+                            payload,
+                            config.REACT_APP_JWT_SECRET,
+                            {expiresIn: 86400},
+                            (err, token) => {
+                                if (err) {
+                                    return res.json({
+                                        message: err
+                                    })
+                                } else {
+                                    return res.json({
+                                        message: 'success',
+                                        token: 'Bearer ' + token
+                                    })
+                                }
+                            }
+                        )
+
+                    } else {
+                        return res.json({
+                            message: 'Incorrect Password'
+                        })
+                    }
+                })
+        })
+}
+
 function checkExists(key, value) {
     // Check if a value exists in the DB
     let query = `
@@ -164,19 +219,68 @@ function checkExists(key, value) {
         dbPool.query(query)
             .then(results => {
                 if (results.rows.length > 0) {
-                    console.log('checkExists would return true')
                     resolve(true)
                 } else {
-                    console.log('checkExists would return false')
                     resolve(false)
                 }
             })
             .catch(error => {
-                console.log('checkExists would throw error')
                 reject(error)
             })
     })
 }
+
+function getUserByUsername(username) {
+    let query = `
+    SELECT *
+    FROM auth.user
+    WHERE username='${username}'
+    `
+
+    return new Promise((resolve, reject) => {
+
+        dbPool.query(query)
+            .then(results => {
+                if (results.rows.length > 0) {
+                    resolve(results.rows[0])
+                } else {
+                    resolve(false)
+                }
+            })
+            .catch(error => {
+                reject(error)
+            })
+    })
+}
+
+function verifyJWT(req, res, next) {
+    const token = req.headers['x-access-token']?.split(' ')[1]
+
+    if (token) {
+        jwt.verify(token, config.REACT_APP_JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return res.json({
+                    isLoggedIn: false,
+                    message: "Failed to Authenticate"
+                })
+            } else {
+                req.user = {};
+                req.user.id = decoded.id
+                req.user.username = decoded.username
+                req.user.name = decoded.name
+                req.user.email = decoded.email
+                req.user.phone = decoded.phone
+                next()
+            }
+        })
+    } else {
+        res.json({
+            message: 'Incorrect Token Given',
+            isLoggedIn: false
+        })
+    }
+}
+
 
 // Export Functions
 module.exports = {
@@ -186,5 +290,7 @@ module.exports = {
     updateUser,
     deleteUser,
 
-    registerUser
+    registerUser,
+    loginUser,
+    verifyJWT
 }
