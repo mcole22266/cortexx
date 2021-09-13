@@ -14,6 +14,7 @@ import {
 import './App.css';
 import { Home } from './components/home/index';
 import MiniBank from './components/minibank/index';
+import Register from './components/register/index';
 
 function App() {
 
@@ -26,6 +27,9 @@ function App() {
             <MiniBank />
           </Route>
 
+          <Route path="/register">
+            <Register />
+          </Route>
 
           <Route path="/">
             <Home />

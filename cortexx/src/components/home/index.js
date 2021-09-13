@@ -9,10 +9,13 @@ import About from "./about";
 import Crickets from "./crickets";
 import Jumbotron from "./jumbotron";
 import MiniBankJumbotron from "./minibankjumbotron";
+import Navbar from "./navbar";
 
 export function Home() {
   return (
     <div>
+
+      <Navbar />
 
       <Jumbotron />
 

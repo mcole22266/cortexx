@@ -7,7 +7,7 @@
 
 import { Component } from 'react';
 import axios from 'axios';
-import Navbar from './navbar';
+import Navbar from '..//home/navbar';
 import ShowBalance from './showBalance';
 import ShowPayments from './showPayments';
 import Account from '../../models/account';

@@ -10,6 +10,7 @@ This project currently exists as a way to enhance my own development experience 
 
 1. Create a `secrets.env` file at the root of the project directory (same directory that contains `.env`) and add the following Environment Variables:
    - `POSTGRES_PASSWORD`=_the password the project should use_
+   - `REACT_APP_JWT_SECRET`=_a secret to be used by the JSON Web Token_ 
 
 ---
 
