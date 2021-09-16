@@ -66,6 +66,10 @@ app.delete('/auth/users/:userId', db_auth.deleteUser)
 app.post('/auth/register', db_auth.registerUser)
     // Login
 app.post('/auth/login', db_auth.loginUser)
+    // Verify
+app.get('/auth', db_auth.verifyJWT, (req, res) => {
+    res.json({isLoggedIn: true, username: req.user.id})
+})
 
 // Start Server
 app.listen(port, () => {

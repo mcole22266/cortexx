@@ -254,6 +254,7 @@ function getUserByUsername(username) {
 }
 
 function verifyJWT(req, res, next) {
+    console.log('Validating User')
     const token = req.headers['x-access-token']?.split(' ')[1]
 
     if (token) {
