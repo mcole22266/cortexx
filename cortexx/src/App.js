@@ -13,6 +13,7 @@ import {
 
 import './App.css';
 import { Home } from './components/home/index';
+import Login from './components/login/index';
 import MiniBank from './components/minibank/index';
 import Register from './components/register/index';
 
@@ -29,6 +30,10 @@ function App() {
 
           <Route path="/register">
             <Register />
+          </Route>
+
+          <Route path="/login">
+            <Login />
           </Route>
 
           <Route path="/">
