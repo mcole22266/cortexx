@@ -68,7 +68,7 @@ app.post('/auth/register', db_auth.registerUser)
 app.post('/auth/login', db_auth.loginUser)
     // Verify
 app.get('/auth', db_auth.verifyJWT, (req, res) => {
-    res.json({isLoggedIn: true, username: req.user.id})
+    res.json({isLoggedIn: true, user: req.user})
 })
 
 // Start Server

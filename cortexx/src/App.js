@@ -24,16 +24,16 @@ function App() {
 
         <Switch>
 
-          <Route path="/minibank">
-            <MiniBank />
+          <Route path="/login">
+            <Login />
           </Route>
 
           <Route path="/register">
             <Register />
           </Route>
 
-          <Route path="/login">
-            <Login />
+          <Route path="/minibank">
+            <MiniBank />
           </Route>
 
           <Route path="/">
