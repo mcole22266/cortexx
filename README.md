@@ -12,6 +12,12 @@ This project currently exists as a way to enhance my own development experience 
    - `POSTGRES_PASSWORD`=_the password the project should use_
    - `REACT_APP_JWT_SECRET`=_a secret to be used by the JSON Web Token_ 
 
+## How to Run
+
+1. Download Docker-Compose if you do not have it already
+2. From this folder, run `docker-compose up --build`
+3. Once complete, navigate to `http://localhost`
+
 ---
 
 ## Contributors
