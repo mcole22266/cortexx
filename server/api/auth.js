@@ -11,6 +11,14 @@ const Pool = require('pg').Pool
 
 const { config } = require('../config')
 
+async function encrypt (unencrypted) {
+    const encrypted = await bcrypt.hash(unencrypted, 10)
+        .then(encrypted => {
+            return encrypted
+        })
+    return encrypted
+}
+
 // Create DB Pool
 const dbPool = new Pool({
     user: config.POSTGRES_USER,
@@ -54,13 +62,13 @@ const getUserById = (req, res) => {
     })
 }
 
-const createUser = (req, res) => {
+const createUser = async (req, res) => {
     console.log('Creating User in DB')
 
     const username = req.body.username
     const name = req.body.name
     const email = req.body.email
-    const password = req.body.password
+    const password = await encrypt(req.body.password)
     const phone = req.body.phone
     const role = req.body.role
 
@@ -82,13 +90,13 @@ const createUser = (req, res) => {
     })
 }
 
-const updateUser = (req, res) => {
+const updateUser = async (req, res) => {
     console.log('Updating User in DB')
     const userId = req.params.userId
     const username = req.body.username
     const name = req.body.name
     const email = req.body.email
-    const password = req.body.password
+    const password = await encrypt(req.body.password)
     const phone = req.body.phone
     const role = req.body.role
 
@@ -146,7 +154,7 @@ const registerUser = async (req, res) => {
 
         req.body.username = username.toLowerCase()
         req.body.email = email.toLowerCase()
-        req.body.password = await bcrypt.hash(password, 10)
+        req.body.password = await encrypt(password)
         req.body.role = role
 
         createUser(req, res)
