@@ -6,26 +6,15 @@
 // --------------------------------------------
 
 import { Component } from 'react';
-import axios from 'axios';
+import { withRouter } from 'react-router';
 import Navbar from '..//home/navbar';
 import ShowBalance from './showBalance';
 import ShowPayments from './showPayments';
 import Account from '../../models/account';
+import api from '../../controllers/api';
+import isLoggedIn from '../../controllers/auth';
 
-// TODO: Remove after testing
-const loggedin_accountid = 1
-
-const { config } = require('../../config');
-
-const backend_host = config.REACT_APP_BACKEND_HOST
-const backend_port = config.REACT_APP_BACKEND_PORT
-const backend_endpoint = `/minibank/accounts/${loggedin_accountid}`
-
-const api = axios.create({
-    baseURL: `${backend_host}:${backend_port}`
-})
-
-export default class Minibank extends Component {
+class Minibank extends Component {
     constructor (props) {
         super (props)
 
@@ -37,13 +26,21 @@ export default class Minibank extends Component {
     }
 
     componentDidMount () {
-        // Get Account Information
-        api.get(backend_endpoint)
-            .then(response => {
-                this.setState({
-                    account: new Account(response.data[0]),
-                    isLoaded: true
-                })
+
+        isLoggedIn()
+            .then(result => {
+                if (!result) {
+                    this.props.history.push('/login')
+                } else {
+                    // get account information
+                    api.get(`/minibank/accounts/${result.id}`)
+                        .then(response => {
+                            this.setState({
+                                account: new Account(response.data[0]),
+                                isLoaded: true
+                            })
+                        })
+                }
             })
     }
 
@@ -77,3 +74,5 @@ export default class Minibank extends Component {
         }
     }
 }
+
+export default withRouter(Minibank)

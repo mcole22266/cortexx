@@ -6,10 +6,12 @@
 // ---------------------------------------------
 
 import { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import Navbar from '../home/navbar';
 import LoginForm from './loginForm';
+import isLoggedIn from '../../controllers/auth';
 
-export default class Login extends Component {
+class Login extends Component {
     constructor (props) {
         super(props)
 
@@ -18,6 +20,18 @@ export default class Login extends Component {
             isLoaded: false
         }
     }
+
+    componentDidMount () {
+
+        isLoggedIn()
+            .then(result => {
+                if (result) {
+                    this.props.history.push('/minibank')
+                }
+            })
+
+    }
+
 
     render () {
         return (
@@ -32,3 +46,5 @@ export default class Login extends Component {
         )
     }
 }
+
+export default withRouter(Login)

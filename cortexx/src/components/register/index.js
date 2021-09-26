@@ -6,10 +6,12 @@
 // ---------------------------------------------
 
 import { Component } from 'react';
+import { withRouter } from 'react-router';
 import Navbar from '../home/navbar';
 import RegistrationForm from './registrationForm';
+import isLoggedIn from '../../controllers/auth';
 
-export default class Register extends Component {
+class Register extends Component {
     constructor (props) {
         super(props)
 
@@ -17,6 +19,16 @@ export default class Register extends Component {
             error: null,
             isLoaded: false
         }
+    }
+
+    componentDidMount () {
+
+        isLoggedIn()
+            .then(result => {
+                if (result) {
+                    this.props.history.push('/minibank')
+                }
+            })
     }
 
     render () {
@@ -32,3 +44,5 @@ export default class Register extends Component {
         )
     }
 }
+
+export default withRouter(Register);

@@ -8,17 +8,7 @@
 import { Component, createRef } from "react";
 import { withRouter } from 'react-router-dom';
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import axios from 'axios';
-
-const { config } = require('../../config');
-
-const backend_host = config.REACT_APP_BACKEND_HOST
-const backend_port = config.REACT_APP_BACKEND_PORT
-const backend_endpoint = `/auth/login`
-
-const api = axios.create({
-    baseURL: `${backend_host}:${backend_port}`
-})
+import api from '../../controllers/api';
 
 class LoginForm extends Component {
     constructor (props) {
@@ -42,7 +32,7 @@ class LoginForm extends Component {
             password: this.passwordInput.current.value
         }
 
-        api.post(backend_endpoint, user)
+        api.post('/auth/login', user)
             .then(response => {
                 if ('token' in response.data) {
                     localStorage.setItem("token", response.data.token)
@@ -54,32 +44,18 @@ class LoginForm extends Component {
         )
     }
 
-    componentDidMount () {
-
-        api.get(`${backend_host}:${backend_port}/auth`, {
-            headers: {
-                "x-access-token": localStorage.getItem("token")
-            }
-        })
-            .then(response => {
-                if (response.data.isLoggedIn) {
-                    this.props.history.push('/minibank')
-                }
-            })
-    }
-
     render () {
         return (
             <Form onSubmit={this.handleLogin}>
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="username">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control required type="text" ref={this.usernameInput} placeholder="myKewlUsername" />
+                        <Form.Control required type="text" ref={this.usernameInput} placeholder="myKewlUsername" autoComplete='username'/>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="password">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control required type="password" ref={this.passwordInput} placeholder="mySecurePassword04!@" />
+                        <Form.Control required type="password" ref={this.passwordInput} placeholder="mySecurePassword04!@" autoComplete='current-password'/>
                     </Form.Group>
                 </Row>
 
